@@ -5,11 +5,10 @@ import logoImg from '../assets/images/logo.svg';
 
 import '../styles/auth.scss';
 import { Button } from '../components/Button';
-import { useContext } from 'react';
-import { AuthContext } from '../App';
+import { useAuth } from '../hooks/useAuth';
 
 export function NewRoom() {
-    const {user, singInWithGoogle} = useContext(AuthContext);
+    const {user} = useAuth();
 
 
     return(
@@ -23,7 +22,6 @@ export function NewRoom() {
                 <div className="main-content">
                     <img src={logoImg} alt="LetMeAsk" />
                     <h2>Criar uma nova sala</h2>
-                    <h1>{user?.name}</h1>
                     <form action="">
                         <input 
                             type="text" 
