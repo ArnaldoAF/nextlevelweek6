@@ -9,6 +9,7 @@ import { RoomCode } from "../components/RoomCode";
 import { database } from "../services/firebase";
 import { Question } from "../components/Question";
 import { useRoom } from "../hooks/useRoom";
+import { useHistory } from "react-router-dom";
 
 type RoomParams = {
     id: string;
@@ -17,8 +18,16 @@ type RoomParams = {
 export function AdminRoom() {
     const params = useParams<RoomParams>();
     const roomId = params.id;
+    const history = useHistory();
 
     const { title, questions } = useRoom(roomId);
+
+    async function handleEndRoom() {
+        database.ref(`rooms/${roomId}`).update({
+            endedAt: new Date(),
+        });
+        history.push('/');
+    }
 
     async function handleDeleteQuestion(questionId: string) {
         if (window.confirm("Tem certeza?")) {
@@ -33,7 +42,7 @@ export function AdminRoom() {
                     <img src={logoImg} alt="letmeask" />
                     <div>
                         <RoomCode code={params.id}/>
-                        <Button isOutlined>Encerrar Sala</Button>
+                        <Button isOutlined onClick={handleEndRoom }>Encerrar Sala</Button>
 
                     </div>
                 </div>
